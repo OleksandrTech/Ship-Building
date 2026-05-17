@@ -38,6 +38,8 @@ In Supabase Dashboard:
 Run the SQL in `supabase/schema.sql` in:
 - **SQL Editor** → **New query**
 
+If the project was created earlier, also run `supabase/gallery_migration.sql` to add the gallery table and storage bucket.
+
 ## 5) Seed your first admin user
 After the schema is created, insert your email into `admin_users` (exact SQL is included at the bottom of `supabase/schema.sql`).
 

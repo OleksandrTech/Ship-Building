@@ -1,7 +1,9 @@
 "use client";
 
-import { useMemo, useState, type FormEvent } from "react";
+import Image from "next/image";
+import { useMemo, useRef, useState, type FormEvent } from "react";
 import { useRouter } from "next/navigation";
+import type { GalleryImageView } from "@/lib/gallery";
 import { createSupabaseBrowserClient } from "@/lib/supabase/browser";
 
 type SiteSettingsRow = {
@@ -17,14 +19,19 @@ type ServiceRow = {
   sort_order: number;
 };
 
+const GALLERY_BUCKET = "gallery";
+const MAX_GALLERY_BYTES = 5 * 1024 * 1024;
+
 export default function AdminDashboard({
   userEmail,
   initialSettings,
   initialServices,
+  initialGallery,
 }: {
   userEmail: string;
   initialSettings: SiteSettingsRow | null;
   initialServices: ServiceRow[];
+  initialGallery: GalleryImageView[];
 }) {
   const router = useRouter();
   const supabase = useMemo(() => createSupabaseBrowserClient(), []);
@@ -37,7 +44,9 @@ export default function AdminDashboard({
   });
 
   const [services, setServices] = useState<ServiceRow[]>(initialServices);
+  const [gallery, setGallery] = useState<GalleryImageView[]>(initialGallery);
   const [newServiceTitle, setNewServiceTitle] = useState("");
+  const fileInputRef = useRef<HTMLInputElement>(null);
   const [busy, setBusy] = useState(false);
   const [message, setMessage] = useState<
     null | { type: "ok" | "error"; text: string }
@@ -131,6 +140,105 @@ export default function AdminDashboard({
       router.refresh();
     }
 
+    setBusy(false);
+  }
+
+  async function uploadGalleryImage(file: File) {
+    if (!file.type.startsWith("image/")) {
+      setMessage({ type: "error", text: "Можно загружать только изображения." });
+      return;
+    }
+    if (file.size > MAX_GALLERY_BYTES) {
+      setMessage({ type: "error", text: "Максимальный размер файла — 5 МБ." });
+      return;
+    }
+
+    setBusy(true);
+    setMessage(null);
+
+    const ext = file.name.split(".").pop()?.toLowerCase() || "jpg";
+    const storagePath = `${crypto.randomUUID()}.${ext}`;
+
+    const { error: uploadError } = await supabase.storage
+      .from(GALLERY_BUCKET)
+      .upload(storagePath, file, { cacheControl: "3600", upsert: false });
+
+    if (uploadError) {
+      setMessage({ type: "error", text: uploadError.message });
+      setBusy(false);
+      return;
+    }
+
+    const nextSort =
+      gallery.length === 0
+        ? 0
+        : Math.max(...gallery.map((g) => g.sort_order ?? 0)) + 1;
+
+    const { data, error: dbError } = await supabase
+      .from("gallery_images")
+      .insert({ storage_path: storagePath, sort_order: nextSort })
+      .select("id,storage_path,sort_order")
+      .single();
+
+    if (dbError) {
+      await supabase.storage.from(GALLERY_BUCKET).remove([storagePath]);
+      setMessage({ type: "error", text: dbError.message });
+      setBusy(false);
+      return;
+    }
+
+    const url =
+      supabase.storage.from(GALLERY_BUCKET).getPublicUrl(storagePath).data
+        .publicUrl;
+
+    setGallery((prev) =>
+      [...prev, { ...data, url }].sort((a, b) => a.sort_order - b.sort_order)
+    );
+    setMessage({ type: "ok", text: "Фото добавлено." });
+    router.refresh();
+    setBusy(false);
+  }
+
+  async function onGalleryFileChange(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0];
+    e.target.value = "";
+    if (!file) return;
+    await uploadGalleryImage(file);
+  }
+
+  async function deleteGalleryImage(image: GalleryImageView) {
+    setBusy(true);
+    setMessage(null);
+
+    const snapshot = gallery;
+    setGallery((prev) => prev.filter((g) => g.id !== image.id));
+
+    const { error: dbError } = await supabase
+      .from("gallery_images")
+      .delete()
+      .eq("id", image.id);
+
+    if (dbError) {
+      setGallery(snapshot);
+      setMessage({ type: "error", text: dbError.message });
+      setBusy(false);
+      return;
+    }
+
+    const { error: storageError } = await supabase.storage
+      .from(GALLERY_BUCKET)
+      .remove([image.storage_path]);
+
+    if (storageError) {
+      setMessage({
+        type: "error",
+        text: `Удалено из списка, но файл в storage: ${storageError.message}`,
+      });
+    } else {
+      setMessage({ type: "ok", text: "Фото удалено." });
+    }
+
+    router.refresh();
     setBusy(false);
   }
 
@@ -232,6 +340,69 @@ export default function AdminDashboard({
               </button>
             </div>
           </form>
+        </section>
+
+        <section className="rounded-lg border border-zinc-200 bg-white p-6">
+          <h2 className="text-base font-semibold">Галерея на главной</h2>
+          <p className="mt-1 text-sm text-zinc-600">
+            Фото отображаются между блоками «Услуги» и «Контакты».
+          </p>
+          <div className="mt-5 flex flex-wrap items-center gap-3">
+            <input
+              ref={fileInputRef}
+              type="file"
+              accept="image/*"
+              className="hidden"
+              onChange={onGalleryFileChange}
+            />
+            <button
+              type="button"
+              disabled={busy}
+              onClick={() => fileInputRef.current?.click()}
+              className="inline-flex h-11 items-center justify-center rounded-md bg-zinc-900 px-4 text-sm font-medium text-white hover:bg-zinc-800 disabled:opacity-60"
+            >
+              Загрузить фото
+            </button>
+            <span className="text-xs text-zinc-500">JPG, PNG, WebP · до 5 МБ</span>
+          </div>
+
+          <div className="mt-6 grid grid-cols-2 gap-4 sm:grid-cols-3">
+            {gallery.length === 0 ? (
+              <p className="col-span-full text-sm text-zinc-600">
+                Пока нет загруженных фото.
+              </p>
+            ) : (
+              gallery.map((img) => (
+                <div
+                  key={img.id}
+                  className="overflow-hidden rounded-lg border border-zinc-200"
+                >
+                  <div className="relative aspect-[4/3] bg-zinc-100">
+                    <Image
+                      src={img.url}
+                      alt=""
+                      fill
+                      className="object-cover"
+                      unoptimized
+                    />
+                  </div>
+                  <div className="flex items-center justify-between gap-2 p-2">
+                    <span className="text-xs text-zinc-500">
+                      Порядок: {img.sort_order}
+                    </span>
+                    <button
+                      type="button"
+                      disabled={busy}
+                      onClick={() => deleteGalleryImage(img)}
+                      className="text-xs font-medium text-red-600 hover:text-red-800 disabled:opacity-60"
+                    >
+                      Удалить
+                    </button>
+                  </div>
+                </div>
+              ))
+            )}
+          </div>
         </section>
 
         <section className="rounded-lg border border-zinc-200 bg-white p-6">
