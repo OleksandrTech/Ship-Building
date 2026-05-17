@@ -32,15 +32,15 @@ export default async function Home() {
         className="pointer-events-none fixed inset-0 -z-10 bg-black/45"
       />
 
-      <main className="relative z-10 mx-auto flex w-full max-w-6xl flex-1 flex-col px-6 py-16">
-        <header className="flex flex-col gap-3">
+      <main className="relative z-10 mx-auto flex w-full flex-1 flex-col px-6 py-16 sm:max-w-6xl">
+        <header className="flex flex-col items-center gap-3">
           <h1 className="text-4xl font-semibold tracking-tight text-white drop-shadow-md sm:text-5xl">
             {companyName}
           </h1>
         </header>
 
-        <section className="mt-12 grid grid-cols-1 items-stretch gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.4fr)_minmax(0,1fr)]">
-          <div className="rounded-xl border border-white/20 bg-white/10 p-6 shadow-lg backdrop-blur-sm">
+        <section className="mt-12 grid grid-cols-1 items-stretch gap-8">
+          <div className="rounded-xl border border-white/20 bg-white/10 p-12 shadow-lg backdrop-blur-sm">
             <h2 className="text-base font-semibold text-white">Services</h2>
             <ul className="mt-4 space-y-2 text-sm text-white/90">
               {(services ?? []).length === 0 ? (
@@ -62,7 +62,7 @@ export default async function Home() {
             <GalleryCarousel images={galleryImages} />
           </div>
 
-          <div className="rounded-xl border border-white/20 bg-white/10 p-6 shadow-lg backdrop-blur-sm">
+          <div className="rounded-xl border border-white/20 bg-white/10 p-12 shadow-lg backdrop-blur-sm">
             <h2 className="text-base font-semibold text-white">Contact</h2>
             <div className="mt-4 grid gap-3 text-sm">
               <div className="rounded-md border border-white/15 bg-white/5 p-3">

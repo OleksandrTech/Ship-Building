@@ -153,6 +153,21 @@ export default function AdminDashboard({
       return;
     }
 
+    // Check minimum resolution (2K: 2560x1440)
+    const img = document.createElement('img');
+    const imageUrl = URL.createObjectURL(file);
+    await new Promise<void>((resolve, reject) => {
+      img.onload = () => resolve();
+      img.onerror = reject;
+      img.src = imageUrl;
+    });
+    if (img.width < 2560 || img.height < 1440) {
+      setMessage({ type: "error", text: "Минимальное разрешение фото — 2560x1440 (2K)." });
+      URL.revokeObjectURL(imageUrl);
+      return;
+    }
+    URL.revokeObjectURL(imageUrl);
+
     setBusy(true);
     setMessage(null);
 
@@ -304,7 +319,7 @@ export default function AdminDashboard({
                 onChange={(e) =>
                   setSettings((s) => ({ ...s, company_name: e.target.value }))
                 }
-                className="h-11 rounded-md border border-zinc-300 px-3 text-sm outline-none focus:border-zinc-900"
+className="h-11 rounded-md border border-zinc-300 px-3 text-sm text-black outline-none focus:border-zinc-900 placeholder:text-gray-400"
               />
             </label>
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
@@ -316,7 +331,7 @@ export default function AdminDashboard({
                     setSettings((s) => ({ ...s, contact_email: e.target.value }))
                   }
                   type="email"
-                  className="h-11 rounded-md border border-zinc-300 px-3 text-sm outline-none focus:border-zinc-900"
+  className="h-11 rounded-md border border-zinc-300 px-3 text-sm text-black outline-none focus:border-zinc-900 placeholder:text-gray-400"
                 />
               </label>
               <label className="grid gap-2 text-sm font-medium">
@@ -326,7 +341,7 @@ export default function AdminDashboard({
                   onChange={(e) =>
                     setSettings((s) => ({ ...s, contact_phone: e.target.value }))
                   }
-                  className="h-11 rounded-md border border-zinc-300 px-3 text-sm outline-none focus:border-zinc-900"
+  className="h-11 rounded-md border border-zinc-300 px-3 text-sm text-black outline-none focus:border-zinc-900 placeholder:text-gray-400"
                 />
               </label>
             </div>
@@ -439,7 +454,7 @@ export default function AdminDashboard({
                       onChange={(e) =>
                         patchServiceLocal(s.id, { title: e.target.value })
                       }
-                      className="h-10 rounded-md border border-zinc-300 px-3 text-sm outline-none focus:border-zinc-900"
+        className="h-10 rounded-md border border-zinc-300 px-3 text-sm text-black outline-none focus:border-zinc-900 placeholder:text-gray-400"
                     />
                   </label>
                   <label className="grid gap-2 text-sm font-medium">
@@ -452,7 +467,7 @@ export default function AdminDashboard({
                         })
                       }
                       inputMode="numeric"
-                      className="h-10 rounded-md border border-zinc-300 px-3 text-sm outline-none focus:border-zinc-900"
+        className="h-10 rounded-md border border-zinc-300 px-3 text-sm text-black outline-none focus:border-zinc-900 placeholder:text-gray-400"
                     />
                   </label>
                   <div className="flex items-end justify-end">
