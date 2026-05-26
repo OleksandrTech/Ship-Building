@@ -37,11 +37,19 @@ export default async function Home() {
           <h1 className="text-4xl font-semibold tracking-tight text-white drop-shadow-md sm:text-5xl">
             {companyName}
           </h1>
+
+          {/* HARDCODED */}
+          <div className="mt-8 text-center text-white/80 text-base leading-relaxed max-w-2xl mx-auto">
+            <p>
+              Built on a foundation of precision engineering and deep maritime knowledge, we construct vessels designed to perform in the world's most demanding conditions. Whether cargo, offshore, or passenger — every ship we deliver is a testament to craftsmanship and technical excellence.
+            </p>
+          </div>
         </header>
+        {/* HARDCODED */}
 
         <section className="mt-12 grid grid-cols-1 items-stretch gap-8">
           <div className="rounded-xl border border-white/20 bg-white/10 p-12 shadow-lg backdrop-blur-sm">
-            <h2 className="text-base font-semibold text-white">Services</h2>
+            <h2 className="text-xl font-semibold text-white">Services</h2>
             <ul className="mt-4 space-y-2 text-sm text-white/90">
               {(services ?? []).length === 0 ? (
                 <li className="text-white/60">No services added yet.</li>
@@ -63,7 +71,7 @@ export default async function Home() {
           </div>
 
           <div className="rounded-xl border border-white/20 bg-white/10 p-12 shadow-lg backdrop-blur-sm">
-            <h2 className="text-base font-semibold text-white">Contact</h2>
+            <h2 className="text-xl font-semibold text-white">Contact</h2>
             <div className="mt-4 grid gap-3 text-sm">
               <div className="rounded-md border border-white/15 bg-white/5 p-3">
                 <div className="text-xs font-medium text-white/60">Email</div>
