@@ -66,7 +66,7 @@ return (
   >
     <h2 className="text-xl font-semibold text-white mt-0 mb-4">Gallery</h2>
     {description && (
-      <p className="text-sm text-white/80 mb-10">{description}</p>
+      <p className="text-sm text-white/80 mb-6">{description}</p>
     )}
 
     <div className="relative w-full overflow-hidden">
@@ -125,7 +125,7 @@ return (
               />
             </div>
             {role === "center" && image.description && (
-              <div className="absolute bottom-0 left-0 right-0 bg-black/90 text-white text-xs p-3 text-center backdrop-blur-sm" style={{ maxHeight: '80px', overflow: 'auto' }}>
+              <div className="image-description absolute bottom-0 left-0 right-0 bg-black/80 text-white text-xs p-3 text-center backdrop-blur-sm rounded-t-lg md:bottom-0 md:left-0 md:right-0 md:rounded-b-xl md:text-sm md:p-3" style={{ maxHeight: '80px', overflow: 'auto' }}>
                 {image.description}
               </div>
             )}
