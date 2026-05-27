@@ -11,6 +11,10 @@ type SiteSettingsRow = {
   company_name: string;
   contact_email: string;
   contact_phone: string;
+  main_description?: string;
+  services_description?: string;
+  gallery_description?: string;
+  contacts_description?: string;
 };
 
 type ServiceRow = {
@@ -41,6 +45,10 @@ export default function AdminDashboard({
     company_name: initialSettings?.company_name ?? "Company",
     contact_email: initialSettings?.contact_email ?? "hello@example.com",
     contact_phone: initialSettings?.contact_phone ?? "+1 555 000 0000",
+    main_description: initialSettings?.main_description ?? "",
+    services_description: initialSettings?.services_description ?? "",
+    gallery_description: initialSettings?.gallery_description ?? "",
+    contacts_description: initialSettings?.contacts_description ?? "",
   });
 
   const [services, setServices] = useState<ServiceRow[]>(initialServices);
@@ -71,6 +79,10 @@ export default function AdminDashboard({
         company_name: settings.company_name,
         contact_email: settings.contact_email,
         contact_phone: settings.contact_phone,
+        main_description: settings.main_description,
+        services_description: settings.services_description,
+        gallery_description: settings.gallery_description,
+        contacts_description: settings.contacts_description,
       },
       { onConflict: "id" }
     );
@@ -345,6 +357,50 @@ className="h-11 rounded-md border border-zinc-300 px-3 text-sm text-black outlin
                 />
               </label>
             </div>
+            <label className="grid gap-2 text-sm font-medium">
+              Main description (under company name)
+              <textarea
+                value={settings.main_description}
+                onChange={(e) =>
+                  setSettings((s) => ({ ...s, main_description: e.target.value }))
+                }
+                rows={3}
+                className="h-auto rounded-md border border-zinc-300 px-3 py-2 text-sm text-black outline-none focus:border-zinc-900 placeholder:text-gray-400 resize-none"
+              />
+            </label>
+            <label className="grid gap-2 text-sm font-medium">
+              Services description
+              <textarea
+                value={settings.services_description}
+                onChange={(e) =>
+                  setSettings((s) => ({ ...s, services_description: e.target.value }))
+                }
+                rows={2}
+                className="h-auto rounded-md border border-zinc-300 px-3 py-2 text-sm text-black outline-none focus:border-zinc-900 placeholder:text-gray-400 resize-none"
+              />
+            </label>
+            <label className="grid gap-2 text-sm font-medium">
+              Gallery description
+              <textarea
+                value={settings.gallery_description}
+                onChange={(e) =>
+                  setSettings((s) => ({ ...s, gallery_description: e.target.value }))
+                }
+                rows={2}
+                className="h-auto rounded-md border border-zinc-300 px-3 py-2 text-sm text-black outline-none focus:border-zinc-900 placeholder:text-gray-400 resize-none"
+              />
+            </label>
+            <label className="grid gap-2 text-sm font-medium">
+              Contacts description
+              <textarea
+                value={settings.contacts_description}
+                onChange={(e) =>
+                  setSettings((s) => ({ ...s, contacts_description: e.target.value }))
+                }
+                rows={2}
+                className="h-auto rounded-md border border-zinc-300 px-3 py-2 text-sm text-black outline-none focus:border-zinc-900 placeholder:text-gray-400 resize-none"
+              />
+            </label>
             <div className="pt-2">
               <button
                 type="submit"
