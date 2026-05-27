@@ -77,12 +77,12 @@ return (
       <style>{`
         @media (max-width: 767px) {
           .carousel-aspect {
-            aspect-ratio: 3/4 !important;
-            min-height: 350px !important;
+            aspect-ratio: 1/2 !important;
+            min-height: 450px !important;
             height: auto !important;
           }
           .gallery-container {
-            min-height: 450px !important;
+            min-height: 600px !important;
           }
         }
       `}</style>
@@ -122,7 +122,7 @@ return (
               />
             </div>
             {role === "center" && image.description && (
-              <div className="absolute bottom-2 left-2 right-2 bg-black/80 text-white text-xs p-2 text-center backdrop-blur-sm rounded-lg md:bottom-4 md:left-4 md:right-4 md:text-sm md:p-3 md:rounded-xl">
+              <div className="absolute bottom-2 left-2 right-2 bg-black/80 text-white text-xs p-2 text-center backdrop-blur-sm rounded-lg md:bottom-4 md:left-4 md:right-4 md:text-sm md:p-3 md:rounded-xl" style={{ maxHeight: '60px', overflow: 'auto' }}>
                 {image.description}
               </div>
             )}
