@@ -85,10 +85,12 @@ return (
             min-height: 350px !important;
           }
           .swipe-buttons {
-            display: none !important;
+            width: 32px !important;
+            height: 32px !important;
+            fontSize: 18px !important;
           }
           .image-description {
-            bottom: 24px !important;
+            bottom: -10px !important;
           }
         }
       `}</style>
@@ -135,15 +137,13 @@ return (
           </button>
         ))}
       </div>
-    </div>
-
-    {count > 1 ? (
+      {count > 1 ? (
       <>
         <button
           type="button"
           onClick={goPrev}
           aria-label="past photo"
-          className="swipe-buttons absolute left-4 top-1/2 z-20 h-12 w-12 -translate-y-1/2 flex items-center justify-center rounded-full border border-zinc-200 bg-white/90 text-2xl text-zinc-700 shadow-lg transition hover:bg-white"
+          className="swipe-buttons absolute left-1 top-1/2 z-20 h-12 w-12 -translate-y-1/2 flex items-center justify-center rounded-full border border-zinc-200 bg-white/90 text-2xl text-zinc-700 shadow-lg transition hover:bg-white"
         >
           ‹
         </button>
@@ -151,12 +151,14 @@ return (
           type="button"
           onClick={goNext}
           aria-label="next photo"
-          className="swipe-buttons absolute right-4 top-1/2 z-20 h-12 w-12 -translate-y-1/2 flex items-center justify-center rounded-full border border-zinc-200 bg-white/90 text-2xl text-zinc-700 shadow-lg transition hover:bg-white"
+          className="swipe-buttons absolute right-1 top-1/2 z-20 h-12 w-12 -translate-y-1/2 flex items-center justify-center rounded-full border border-zinc-200 bg-white/90 text-2xl text-zinc-700 shadow-lg transition hover:bg-white"
         >
           ›
         </button>
       </>
     ) : null}
+    </div>
+
   </div>
   );
 }
