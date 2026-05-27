@@ -99,16 +99,18 @@ return (
                 : "",
             ].join(" ")}
           >
-            <Image
-              src={image.url}
-              alt=""
-              fill
-              className="object-contain"
-              sizes="(max-width: 768px) 100vw, 896px"
-              unoptimized
-            />
+            <div className="relative w-full h-full rounded-xl overflow-hidden">
+              <Image
+                src={image.url}
+                alt=""
+                fill
+                className="object-contain"
+                sizes="(max-width: 768px) 100vw, 896px"
+                unoptimized
+              />
+            </div>
             {role === "center" && image.description && (
-              <div className="absolute bottom-0 left-0 right-0 bg-black/60 text-white text-sm p-3 text-center backdrop-blur-sm">
+              <div className="absolute bottom-4 left-4 right-4 bg-black/80 text-white text-sm p-3 text-center backdrop-blur-sm rounded-xl">
                 {image.description}
               </div>
             )}
