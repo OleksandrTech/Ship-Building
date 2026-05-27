@@ -48,7 +48,7 @@ export default function SiteHeader({ companyName }: { companyName: string }) {
           <style>{`
             @media (min-width: 768px) {
               .header-container {
-                padding: 0 180px !important;
+                padding: 0 50px !important;
                 height: 80px !important;
               }
               .company-name {
@@ -56,22 +56,33 @@ export default function SiteHeader({ companyName }: { companyName: string }) {
                 maxWidth: none !important;
                 overflow: visible !important;
                 textOverflow: clip !important;
+                flexShrink: 1 !important;
+                minWidth: 0 !important;
               }
               .header-nav {
-                gap: 50px !important;
+                gap: 10px !important;
               }
               .nav-button {
                 fontSize: 16px !important;
                 padding: 8px 16px !important;
               }
             }
-            @media (max-width: 767px) {
+            @media (max-width: 1199px) and (min-width: 768px) {
+              .company-name {
+                flexShrink: 1 !important;
+                minWidth: 0 !important;
+              }
+            }
+            @media (max-width: 1199px) {
               .company-name {
                 maxWidth: none !important;
                 fontSize: 14px !important;
                 whiteSpace: normal !important;
                 lineHeight: 1.2 !important;
+                textAlign: left !important;
               }
+            }
+            @media (max-width: 767px) {
               .header-nav {
                 display: none !important;
               }
