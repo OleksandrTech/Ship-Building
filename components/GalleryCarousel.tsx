@@ -78,11 +78,11 @@ return (
         @media (max-width: 767px) {
           .carousel-aspect {
             aspect-ratio: 3/4 !important;
-            min-height: 300px !important;
+            min-height: 250px !important;
             height: auto !important;
           }
           .gallery-container {
-            min-height: 400px !important;
+            min-height: 350px !important;
           }
           .swipe-buttons {
             display: none !important;
