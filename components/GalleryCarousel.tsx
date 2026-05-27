@@ -40,7 +40,7 @@ export default function GalleryCarousel({ images, description }: { images: Galle
 
   if (count === 0) {
     return (
-      <div className="flex min-h-[220px] items-center justify-center rounded-xl bg-white px-6 py-10 text-sm text-zinc-500">
+      <div className="flex min-h-[220px] md:min-h-[400px] items-center justify-center rounded-xl bg-white px-6 py-10 text-sm text-zinc-500">
         Фотографии пока не добавлены
       </div>
     );
@@ -72,7 +72,7 @@ return (
     <div className="relative w-full overflow-hidden">
       {/* центральный слайд задаёт высоту блока */}
       {slots.filter(s => s.role === "center").map(({ image }) => (
-        <div key={image.id} className="relative w-full aspect-[16/9]" />
+        <div key={image.id} className="relative w-full aspect-[16/9] md:aspect-[16/10]" />
       ))}
 
       <div className="absolute inset-0 flex items-center justify-center">
@@ -110,7 +110,7 @@ return (
               />
             </div>
             {role === "center" && image.description && (
-              <div className="absolute bottom-4 left-4 right-4 bg-black/80 text-white text-sm p-3 text-center backdrop-blur-sm rounded-xl">
+              <div className="absolute bottom-2 left-2 right-2 bg-black/80 text-white text-xs p-2 text-center backdrop-blur-sm rounded-lg md:bottom-4 md:left-4 md:right-4 md:text-sm md:p-3 md:rounded-xl">
                 {image.description}
               </div>
             )}

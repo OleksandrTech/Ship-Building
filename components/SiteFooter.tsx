@@ -165,7 +165,14 @@ export default function SiteFooter({ companyName, description }: FooterProps) {
         </div>
 
         {/* Far right: Social icons */}
-        <div style={{ display: "flex", flexDirection: "column", gap: "14px", alignItems: "center" }}>
+        <div className="social-icons" style={{ display: "flex", flexDirection: "row", gap: "14px", alignItems: "center" }}>
+          <style>{`
+            @media (min-width: 768px) {
+              .social-icons {
+                flexDirection: column !important;
+              }
+            }
+          `}</style>
           {/* Instagram */}
           <a
             href="#"
@@ -284,7 +291,7 @@ export default function SiteFooter({ companyName, description }: FooterProps) {
             gap: 32px !important;
           }
         }
-        @media (max-width: 560px) {
+        @media (max-width: 640px) {
           .footer-grid {
             grid-template-columns: 1fr !important;
           }

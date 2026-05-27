@@ -35,21 +35,49 @@ export default function SiteHeader({ companyName }: { companyName: string }) {
         }}
       >
         <div
+          className="header-container"
           style={{
             width: "100%",
-            padding: "0 180px",
-            height: "80px",
+            padding: "0 16px",
+            height: "64px",
             display: "flex",
             alignItems: "center",
             justifyContent: "space-between",
           }}
         >
+          <style>{`
+            @media (min-width: 768px) {
+              .header-container {
+                padding: 0 180px !important;
+                height: 80px !important;
+              }
+              .company-name {
+                fontSize: clamp(16px, 1.8vw, 22px) !important;
+                maxWidth: none !important;
+                overflow: visible !important;
+                textOverflow: clip !important;
+              }
+              .header-nav {
+                gap: 50px !important;
+              }
+              .nav-button {
+                fontSize: 16px !important;
+                padding: 8px 16px !important;
+              }
+            }
+            @media (max-width: 767px) {
+              .company-name {
+                maxWidth: 150px !important;
+              }
+            }
+          `}</style>
           {/* Logo / company name — left */}
           <span
+            className="company-name"
             style={{
               fontFamily: "'Georgia', 'Times New Roman', serif",
               fontWeight: 700,
-              fontSize: "clamp(16px, 1.8vw, 22px)",
+              fontSize: "clamp(14px, 2vw, 18px)",
               color: "#111",
               letterSpacing: "-0.02em",
               whiteSpace: "nowrap",
@@ -63,7 +91,7 @@ export default function SiteHeader({ companyName }: { companyName: string }) {
           </span>
 
           {/* Nav — right */}
-          <nav style={{ display: "flex", alignItems: "center", gap: "50px" }}>
+          <nav className="header-nav" style={{ display: "flex", alignItems: "center", gap: "16px" }}>
             {[
               { label: "What we do", target: "section-services" },
               { label: "Gallery",    target: "section-gallery" },
@@ -73,13 +101,14 @@ export default function SiteHeader({ companyName }: { companyName: string }) {
                 key={target}
                 type="button"
                 onClick={() => scrollTo(target)}
+                className="nav-button"
                 style={{
                   background: "none",
                   border: "none",
                   cursor: "pointer",
-                  padding: "8px 16px",
+                  padding: "6px 10px",
                   borderRadius: "6px",
-                  fontSize: "16px",
+                  fontSize: "clamp(12px, 2vw, 14px)",
                   fontWeight: 500,
                   color: "#374151",
                   letterSpacing: "0.01em",
