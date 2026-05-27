@@ -72,8 +72,15 @@ return (
     <div className="relative w-full overflow-hidden">
       {/* центральный слайд задаёт высоту блока */}
       {slots.filter(s => s.role === "center").map(({ image }) => (
-        <div key={image.id} className="relative w-full aspect-[16/9] md:aspect-[16/10]" />
+        <div key={image.id} className="carousel-aspect relative w-full aspect-[16/9] md:aspect-[16/10]" />
       ))}
+      <style>{`
+        @media (max-width: 767px) {
+          .carousel-aspect {
+            aspect-ratio: 16/12 !important;
+          }
+        }
+      `}</style>
 
       <div className="absolute inset-0 flex items-center justify-center">
         {slots.map(({ image, role }) => (
