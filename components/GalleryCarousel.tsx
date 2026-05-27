@@ -66,7 +66,7 @@ return (
   >
     <h2 className="text-xl font-semibold text-white mt-0 mb-4">Gallery</h2>
     {description && (
-      <p className="text-sm text-white/80 mb-6">{description}</p>
+      <p className="text-sm text-white/80 mb-4">{description}</p>
     )}
 
     <div className="relative w-full overflow-hidden">
@@ -86,6 +86,9 @@ return (
           }
           .swipe-buttons {
             display: none !important;
+          }
+          .image-description {
+            bottom: 16px !important;
           }
         }
       `}</style>
