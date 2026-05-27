@@ -26,7 +26,9 @@ export default async function Home() {
   const lat = settings?.latitude ?? undefined;
   const lng = settings?.longitude ?? undefined;
   const middleDescription = settings?.middle_description ?? "";
+  const servicesDescription = settings?.services_description ?? "";
   const galleryDescription = settings?.gallery_description ?? "";
+  const contactsDescription = settings?.contacts_description ?? "";
   const galleryImages = toGalleryViews((galleryRows ?? []) as GalleryImageRow[]);
 
   return (
@@ -59,7 +61,10 @@ export default async function Home() {
         <section className="mt-12 grid grid-cols-1 items-stretch gap-8">
           <div id="section-services" className="rounded-xl border border-white/20 bg-white/10 p-12 shadow-lg backdrop-blur-sm">
             <h2 className="text-xl font-semibold text-white">Services</h2>
-            <ul className="mt-4 space-y-2 text-sm text-white/90">
+            {servicesDescription && (
+              <p className="mt-4 text-sm text-white/80">{servicesDescription}</p>
+            )}
+            <ul className="mt-6 space-y-2 text-sm text-white/90">
               {(services ?? []).length === 0 ? (
                 <li className="text-white/60">No services added yet.</li>
               ) : (
@@ -88,7 +93,10 @@ export default async function Home() {
 
           <div id="section-contacts" className="rounded-xl border border-white/20 bg-white/10 p-12 shadow-lg backdrop-blur-sm transition-[box-shadow] duration-500">
             <h2 className="text-xl font-semibold text-white">Contact</h2>
-            <div className="mt-4 grid gap-3 text-sm">
+            {contactsDescription && (
+              <p className="mt-4 text-sm text-white/80">{contactsDescription}</p>
+            )}
+            <div className="mt-6 grid gap-3 text-sm">
               <div className="rounded-md border border-white/15 bg-white/5 p-3">
                 <div className="text-xs font-medium text-white/60">Email</div>
                 <a
