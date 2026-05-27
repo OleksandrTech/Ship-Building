@@ -60,7 +60,7 @@ export default function GalleryCarousel({ images, description }: { images: Galle
 
 return (
   <div
-    className="relative rounded-xl border border-white/20 bg-white/10 px-8 pt-12 pb-8 backdrop-blur-sm shadow-lg overflow-hidden"
+    className="gallery-container relative rounded-xl border border-white/20 bg-white/10 px-8 pt-12 pb-8 backdrop-blur-sm shadow-lg overflow-hidden"
     onTouchStart={onTouchStart}
     onTouchEnd={onTouchEnd}
   >
@@ -77,7 +77,12 @@ return (
       <style>{`
         @media (max-width: 767px) {
           .carousel-aspect {
-            aspect-ratio: 16/12 !important;
+            aspect-ratio: 3/4 !important;
+            min-height: 350px !important;
+            height: auto !important;
+          }
+          .gallery-container {
+            min-height: 450px !important;
           }
         }
       `}</style>
