@@ -6,7 +6,7 @@ import type { GalleryImageView } from "@/lib/gallery";
 
 const SWIPE_THRESHOLD_PX = 48;
 
-export default function GalleryCarousel({ images }: { images: GalleryImageView[] }) {
+export default function GalleryCarousel({ images, description }: { images: GalleryImageView[]; description?: string }) {
   const [activeIndex, setActiveIndex] = useState(0);
   const touchStartX = useRef<number | null>(null);
 
@@ -60,11 +60,14 @@ export default function GalleryCarousel({ images }: { images: GalleryImageView[]
 
 return (
   <div
-    className="relative rounded-xl border border-white/20 bg-white/10 px-8 pt-12 pb-4 backdrop-blur-sm shadow-lg overflow-hidden"
+    className="relative rounded-xl border border-white/20 bg-white/10 px-8 pt-12 pb-8 backdrop-blur-sm shadow-lg overflow-hidden"
     onTouchStart={onTouchStart}
     onTouchEnd={onTouchEnd}
   >
     <h2 className="text-xl font-semibold text-white mt-0 mb-4">Gallery</h2>
+    {description && (
+      <p className="text-sm text-white/80 mb-10">{description}</p>
+    )}
 
     <div className="relative w-full overflow-hidden">
       {/* центральный слайд задаёт высоту блока */}
@@ -104,6 +107,11 @@ return (
               sizes="(max-width: 768px) 100vw, 896px"
               unoptimized
             />
+            {role === "center" && image.description && (
+              <div className="absolute bottom-0 left-0 right-0 bg-black/60 text-white text-sm p-3 text-center backdrop-blur-sm">
+                {image.description}
+              </div>
+            )}
           </button>
         ))}
       </div>

@@ -54,6 +54,7 @@ export default function AdminDashboard({
   const [services, setServices] = useState<ServiceRow[]>(initialServices);
   const [gallery, setGallery] = useState<GalleryImageView[]>(initialGallery);
   const [newServiceTitle, setNewServiceTitle] = useState("");
+  const [newImageDescription, setNewImageDescription] = useState("");
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [busy, setBusy] = useState(false);
   const [message, setMessage] = useState<
@@ -203,8 +204,8 @@ export default function AdminDashboard({
 
     const { data, error: dbError } = await supabase
       .from("gallery_images")
-      .insert({ storage_path: storagePath, sort_order: nextSort })
-      .select("id,storage_path,sort_order")
+      .insert({ storage_path: storagePath, sort_order: nextSort, description: newImageDescription || null })
+      .select("id,storage_path,sort_order,description")
       .single();
 
     if (dbError) {
@@ -221,6 +222,7 @@ export default function AdminDashboard({
     setGallery((prev) =>
       [...prev, { ...data, url }].sort((a, b) => a.sort_order - b.sort_order)
     );
+    setNewImageDescription("");
     setMessage({ type: "ok", text: "Фото добавлено." });
     router.refresh();
     setBusy(false);
@@ -418,23 +420,34 @@ className="h-11 rounded-md border border-zinc-300 px-3 text-sm text-black outlin
           <p className="mt-1 text-sm text-zinc-600">
             Фото отображаются между блоками «Услуги» и «Контакты».
           </p>
-          <div className="mt-5 flex flex-wrap items-center gap-3">
-            <input
-              ref={fileInputRef}
-              type="file"
-              accept="image/*"
-              className="hidden"
-              onChange={onGalleryFileChange}
-            />
-            <button
-              type="button"
-              disabled={busy}
-              onClick={() => fileInputRef.current?.click()}
-              className="inline-flex h-11 items-center justify-center rounded-md bg-zinc-900 px-4 text-sm font-medium text-white hover:bg-zinc-800 disabled:opacity-60"
-            >
-              Загрузить фото
-            </button>
-            <span className="text-xs text-zinc-500">JPG, PNG, WebP · до 5 МБ</span>
+          <div className="mt-5 flex flex-col gap-3">
+            <label className="grid gap-2 text-sm font-medium">
+              Описание фото
+              <input
+                value={newImageDescription}
+                onChange={(e) => setNewImageDescription(e.target.value)}
+                placeholder="Введите описание фото (необязательно)"
+                className="h-11 rounded-md border border-zinc-300 px-3 text-sm text-black outline-none focus:border-zinc-900 placeholder:text-gray-400"
+              />
+            </label>
+            <div className="flex flex-wrap items-center gap-3">
+              <input
+                ref={fileInputRef}
+                type="file"
+                accept="image/*"
+                className="hidden"
+                onChange={onGalleryFileChange}
+              />
+              <button
+                type="button"
+                disabled={busy}
+                onClick={() => fileInputRef.current?.click()}
+                className="inline-flex h-11 items-center justify-center rounded-md bg-zinc-900 px-4 text-sm font-medium text-white hover:bg-zinc-800 disabled:opacity-60"
+              >
+                Загрузить фото
+              </button>
+              <span className="text-xs text-zinc-500">JPG, PNG, WebP · до 5 МБ · мин. 2560x1440</span>
+            </div>
           </div>
 
           <div className="mt-6 grid grid-cols-2 gap-4 sm:grid-cols-3">

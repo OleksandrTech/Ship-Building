@@ -4,6 +4,7 @@ export type GalleryImageRow = {
   id: string;
   storage_path: string;
   sort_order: number;
+  description?: string;
 };
 
 export type GalleryImageView = GalleryImageRow & {
