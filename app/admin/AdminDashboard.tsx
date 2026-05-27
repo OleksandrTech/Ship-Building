@@ -12,9 +12,13 @@ type SiteSettingsRow = {
   contact_email: string;
   contact_phone: string;
   main_description?: string;
+  middle_description?: string;
   services_description?: string;
   gallery_description?: string;
   contacts_description?: string;
+  address?: string;
+  latitude?: number | null;
+  longitude?: number | null;
 };
 
 type ServiceRow = {
@@ -22,6 +26,7 @@ type ServiceRow = {
   title: string;
   sort_order: number;
 };
+
 
 const GALLERY_BUCKET = "gallery";
 const MAX_GALLERY_BYTES = 5 * 1024 * 1024;
@@ -46,10 +51,16 @@ export default function AdminDashboard({
     contact_email: initialSettings?.contact_email ?? "hello@example.com",
     contact_phone: initialSettings?.contact_phone ?? "+1 555 000 0000",
     main_description: initialSettings?.main_description ?? "",
+    middle_description: initialSettings?.middle_description ?? "",
     services_description: initialSettings?.services_description ?? "",
     gallery_description: initialSettings?.gallery_description ?? "",
     contacts_description: initialSettings?.contacts_description ?? "",
+    address: initialSettings?.address ?? "",
+    latitude: initialSettings?.latitude ?? null,
+    longitude: initialSettings?.longitude ?? null,
   });
+
+  
 
   const [services, setServices] = useState<ServiceRow[]>(initialServices);
   const [gallery, setGallery] = useState<GalleryImageView[]>(initialGallery);
@@ -81,9 +92,13 @@ export default function AdminDashboard({
         contact_email: settings.contact_email,
         contact_phone: settings.contact_phone,
         main_description: settings.main_description,
+        middle_description: settings.middle_description,
         services_description: settings.services_description,
         gallery_description: settings.gallery_description,
         contacts_description: settings.contacts_description,
+        address: settings.address,
+        latitude: settings.latitude,
+        longitude: settings.longitude,
       },
       { onConflict: "id" }
     );
@@ -371,6 +386,17 @@ className="h-11 rounded-md border border-zinc-300 px-3 text-sm text-black outlin
               />
             </label>
             <label className="grid gap-2 text-sm font-medium">
+              Middle description (between services and gallery)
+              <textarea
+                value={settings.middle_description}
+                onChange={(e) =>
+                  setSettings((s) => ({ ...s, middle_description: e.target.value }))
+                }
+                rows={3}
+                className="h-auto rounded-md border border-zinc-300 px-3 py-2 text-sm text-black outline-none focus:border-zinc-900 placeholder:text-gray-400 resize-none"
+              />
+            </label>
+            <label className="grid gap-2 text-sm font-medium">
               Services description
               <textarea
                 value={settings.services_description}
@@ -403,6 +429,52 @@ className="h-11 rounded-md border border-zinc-300 px-3 text-sm text-black outlin
                 className="h-auto rounded-md border border-zinc-300 px-3 py-2 text-sm text-black outline-none focus:border-zinc-900 placeholder:text-gray-400 resize-none"
               />
             </label>
+
+            <label className="grid gap-2 text-sm font-medium">
+              Address (shown on map)
+              <input
+                value={settings.address}
+                onChange={(e) => setSettings((s) => ({ ...s, address: e.target.value }))}
+                placeholder="Shipyard Road 1, Rotterdam"
+                className="h-11 rounded-md border border-zinc-300 px-3 text-sm text-black outline-none focus:border-zinc-900 placeholder:text-gray-400"
+              />
+            </label>
+
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+  <label className="grid gap-2 text-sm font-medium">
+    Latitude
+    <input
+      value={settings.latitude ?? ""}
+      onChange={(e) =>
+        setSettings((s) => ({
+          ...s,
+          latitude: e.target.value ? parseFloat(e.target.value) : null,
+        }))
+      }
+      type="number"
+      step="any"
+      placeholder="51.9225"
+      className="h-11 rounded-md border border-zinc-300 px-3 text-sm text-black outline-none focus:border-zinc-900 placeholder:text-gray-400"
+    />
+  </label>
+  <label className="grid gap-2 text-sm font-medium">
+    Longitude
+    <input
+      value={settings.longitude ?? ""}
+      onChange={(e) =>
+        setSettings((s) => ({
+          ...s,
+          longitude: e.target.value ? parseFloat(e.target.value) : null,
+        }))
+      }
+      type="number"
+      step="any"
+      placeholder="4.4792"
+      className="h-11 rounded-md border border-zinc-300 px-3 text-sm text-black outline-none focus:border-zinc-900 placeholder:text-gray-400"
+    />
+  </label>
+            </div>
+
             <div className="pt-2">
               <button
                 type="submit"

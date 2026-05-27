@@ -4,7 +4,7 @@ export default function SiteHeader({ companyName }: { companyName: string }) {
   function scrollTo(id: string) {
     const el = document.getElementById(id);
     if (!el) return;
-    el.scrollIntoView({ behavior: "smooth", block: "start" });
+    el.scrollIntoView({ behavior: "smooth", block: "center" });
     el.classList.add("section-highlight");
     setTimeout(() => el.classList.remove("section-highlight"), 600);
   }
@@ -38,7 +38,7 @@ export default function SiteHeader({ companyName }: { companyName: string }) {
           style={{
             width: "100%",
             padding: "0 180px",
-            height: "64px",
+            height: "80px",
             display: "flex",
             alignItems: "center",
             justifyContent: "space-between",
@@ -49,11 +49,14 @@ export default function SiteHeader({ companyName }: { companyName: string }) {
             style={{
               fontFamily: "'Georgia', 'Times New Roman', serif",
               fontWeight: 700,
-              fontSize: "clamp(15px, 2vw, 20px)",
+              fontSize: "clamp(16px, 1.8vw, 22px)",
               color: "#111",
               letterSpacing: "-0.02em",
               whiteSpace: "nowrap",
-              flexShrink: 0,
+              overflow: "hidden",
+              textOverflow: "ellipsis",
+              flexShrink: 1,
+              minWidth: 0,
             }}
           >
             ⚓&nbsp;{companyName}
@@ -74,9 +77,9 @@ export default function SiteHeader({ companyName }: { companyName: string }) {
                   background: "none",
                   border: "none",
                   cursor: "pointer",
-                  padding: "6px 14px",
+                  padding: "8px 16px",
                   borderRadius: "6px",
-                  fontSize: "14px",
+                  fontSize: "16px",
                   fontWeight: 500,
                   color: "#374151",
                   letterSpacing: "0.01em",
