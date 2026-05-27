@@ -67,17 +67,13 @@ export default function SiteHeader({ companyName }: { companyName: string }) {
             }
             @media (max-width: 767px) {
               .company-name {
-                maxWidth: 140px !important;
-                fontSize: 10px !important;
+                maxWidth: none !important;
+                fontSize: 14px !important;
                 whiteSpace: normal !important;
-                lineHeight: 1.1 !important;
+                lineHeight: 1.2 !important;
               }
               .header-nav {
-                gap: 6px !important;
-              }
-              .nav-button {
-                fontSize: 9px !important;
-                padding: 3px 5px !important;
+                display: none !important;
               }
             }
           `}</style>

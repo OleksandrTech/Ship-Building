@@ -77,12 +77,15 @@ return (
       <style>{`
         @media (max-width: 767px) {
           .carousel-aspect {
-            aspect-ratio: 1/2 !important;
-            min-height: 450px !important;
+            aspect-ratio: 3/4 !important;
+            min-height: 300px !important;
             height: auto !important;
           }
           .gallery-container {
-            min-height: 600px !important;
+            min-height: 400px !important;
+          }
+          .swipe-buttons {
+            display: none !important;
           }
         }
       `}</style>
@@ -122,7 +125,7 @@ return (
               />
             </div>
             {role === "center" && image.description && (
-              <div className="absolute bottom-2 left-2 right-2 bg-black/80 text-white text-xs p-2 text-center backdrop-blur-sm rounded-lg md:bottom-4 md:left-4 md:right-4 md:text-sm md:p-3 md:rounded-xl" style={{ maxHeight: '60px', overflow: 'auto' }}>
+              <div className="absolute bottom-0 left-0 right-0 bg-black/90 text-white text-xs p-3 text-center backdrop-blur-sm" style={{ maxHeight: '80px', overflow: 'auto' }}>
                 {image.description}
               </div>
             )}
@@ -137,7 +140,7 @@ return (
           type="button"
           onClick={goPrev}
           aria-label="past photo"
-          className="absolute left-4 top-1/2 z-20 h-12 w-12 -translate-y-1/2 flex items-center justify-center rounded-full border border-zinc-200 bg-white/90 text-2xl text-zinc-700 shadow-lg transition hover:bg-white"
+          className="swipe-buttons absolute left-4 top-1/2 z-20 h-12 w-12 -translate-y-1/2 flex items-center justify-center rounded-full border border-zinc-200 bg-white/90 text-2xl text-zinc-700 shadow-lg transition hover:bg-white"
         >
           ‹
         </button>
@@ -145,7 +148,7 @@ return (
           type="button"
           onClick={goNext}
           aria-label="next photo"
-          className="absolute right-4 top-1/2 z-20 h-12 w-12 -translate-y-1/2 flex items-center justify-center rounded-full border border-zinc-200 bg-white/90 text-2xl text-zinc-700 shadow-lg transition hover:bg-white"
+          className="swipe-buttons absolute right-4 top-1/2 z-20 h-12 w-12 -translate-y-1/2 flex items-center justify-center rounded-full border border-zinc-200 bg-white/90 text-2xl text-zinc-700 shadow-lg transition hover:bg-white"
         >
           ›
         </button>
